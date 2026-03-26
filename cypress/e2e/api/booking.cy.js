@@ -17,7 +17,7 @@ describe('Restful Booker - Booking API', () => {
 
   context('GET /booking', () => {
 
-    it('TC01 - Obtener todos los  bookings', () => {
+    it('TC01 - Obtener todos los bookings', () => {
       cy.request({
         method: 'GET',
         url:    `${API_URL}/booking`,
