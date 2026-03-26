@@ -10,7 +10,7 @@ describe('SauceDemo - Login', () => {
 
   context('Happy Path', () => {
 
-    it('TC01 - Login exitoso con usuario standard', () => {
+    it('TC01 - Login exitoso con usuario  standard', () => {
       cy.fixture('users').then((users) => {
         LoginPage.typeUsername(users.validUser.username)
         LoginPage.typePassword(users.validUser.password)
