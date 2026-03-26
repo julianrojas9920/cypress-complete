@@ -13,10 +13,13 @@ module.exports = defineConfig({
   reporter: 'cypress-mochawesome-reporter',
   reporterOptions: {
     reportDir: 'cypress/reports',
-    overwrite: false,
+    reportFilename: 'index',
+    overwrite: true,
     html: true,
-    json: true,
-    timestamp: 'mmddyyyy_HHMMss',
+    json: false,
+    timestamp: false,
+    inlineAssets: true,
+    embeddedScreenshots: true,
   },
 
   e2e: {
