@@ -14,6 +14,11 @@ on:
       - 'cypress/fixtures/**'
       - 'cypress/support/**'
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   cypress-api:
     name: API Tests
@@ -37,12 +42,15 @@ jobs:
         env:
           CYPRESS_API_URL:      ${{ secrets.API_URL }}
             
-      - name: Guardar reporte
-        uses: actions/upload-artifact@v4
+      - name: Setup Pages
         if: always()
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        if: always()
+        uses: actions/upload-pages-artifact@v3.0.1
         with:
-          name: api-report
-          path: cypress/reports
+          path: cypress/reports/
 
   deploy:
     name: Publicar Reporte API
