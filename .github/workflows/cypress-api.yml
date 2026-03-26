@@ -42,7 +42,7 @@ jobs:
         if: always()
         with:
           name: api-report
-          path: cypress/report
+          path: cypress/reports
 
   deploy:
     name: Publicar Reporte API
