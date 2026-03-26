@@ -1,0 +1,13 @@
+# Dependencias
+node_modules/
+
+# Cypress outputs
+cypress/reports/
+cypress/videos/
+cypress/screenshots/
+
+# Variables de entorno
+.env
+
+# MacOS
+.DS_Store
