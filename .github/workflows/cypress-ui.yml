@@ -1,0 +1,66 @@
+name: Cypress UI Tests
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - 'cypress/e2e/ui/**'
+      - 'cypress/pages/**'
+      - 'cypress/selectors/**'
+  pull_request:
+    branches: [ master ]
+    paths:
+      - 'cypress/e2e/ui/**'
+      - 'cypress/pages/**'
+      - 'cypress/selectors/**'
+
+jobs:
+  cypress-ui:
+    name: UI Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Correr tests UI
+        run: npm run cy:ui
+
+  publish-report:
+    name: Publicar Reporte UI
+    runs-on: ubuntu-latest
+    needs: [ cypress-ui ]
+    if: always()
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Correr tests y generar reporte
+        run: npm run cy:ui
+
+      - name: Publicar en GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: cypress/reports
+          destination_dir: ui

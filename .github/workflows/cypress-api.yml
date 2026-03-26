@@ -1,0 +1,70 @@
+name: Cypress API Tests
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - 'cypress/e2e/api/**'
+      - 'cypress/fixtures/**'
+      - 'cypress/support/**'
+  pull_request:
+    branches: [ master ]
+    paths:
+      - 'cypress/e2e/api/**'
+      - 'cypress/fixtures/**'
+      - 'cypress/support/**'
+
+jobs:
+  cypress-api:
+    name: API Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Correr tests API
+        run: npm run cy:api
+        env:
+          CYPRESS_API_URL:      ${{ secrets.API_URL }}
+
+  publish-report:
+    name: Publicar Reporte API
+    runs-on: ubuntu-latest
+    needs: [ cypress-api ]
+    if: always()
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Correr tests y generar reporte
+        run: npm run cy:api
+        env:
+          CYPRESS_API_URL:      ${{ secrets.API_URL }}
+
+      - name: Publicar en GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: cypress/reports
+          destination_dir: api
