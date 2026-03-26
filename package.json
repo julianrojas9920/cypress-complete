@@ -6,6 +6,7 @@
   "scripts": {
     "cy:open": "cypress open",
     "cy:run": "cypress run",
+    "cy:ui": "cypress run --spec 'cypress/e2e/ui/**/*.cy.js'",
     "cy:ui-web": "cypress run --spec 'cypress/e2e/ui/web/**/*.cy.js'",
     "cy:ui-web-mobile": "cypress run --spec 'cypress/e2e/ui/web_mobile/**/*.cy.js'",
     "cy:api": "cypress run --spec 'cypress/e2e/api/**/*.cy.js'"
